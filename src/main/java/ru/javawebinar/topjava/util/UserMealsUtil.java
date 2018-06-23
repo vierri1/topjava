@@ -3,11 +3,11 @@ package ru.javawebinar.topjava.util;
 import ru.javawebinar.topjava.model.UserMeal;
 import ru.javawebinar.topjava.model.UserMealWithExceed;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class UserMealsUtil {
     public static void main(String[] args) {
@@ -19,15 +19,34 @@ public class UserMealsUtil {
                 new UserMeal(LocalDateTime.of(2015, Month.MAY, 31,13,0), "Обед", 500),
                 new UserMeal(LocalDateTime.of(2015, Month.MAY, 31,20,0), "Ужин", 510)
         );
-        getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(12,0), 2000);
+        getFilteredWithExceeded(mealList, LocalTime.of(7, 0), LocalTime.of(20,0), 2000);
 //        .toLocalDate();
 //        .toLocalTime();
     }
 
     public static List<UserMealWithExceed>  getFilteredWithExceeded(List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
-        // TODO return filtered list with correctly exceeded field
-        System.out.println("jdlfsjakfa");
+        Map<LocalDate, Integer> caloriesPerDayMap = new HashMap<>();
+        int calories;
+        LocalDate date;
+        for (UserMeal list: mealList) {
+            date = list.getDateTime().toLocalDate();
+            calories = list.getCalories();
+            caloriesPerDayMap.merge(date, calories, (a, b) -> a + b);
+        }
 
-        return null;
+        List<UserMealWithExceed> mealWithExceedsList = new ArrayList<>();
+        for (UserMeal list: mealList) {
+            if (TimeUtil.isBetween(list.getDateTime().toLocalTime(), startTime, endTime)) {
+                date = list.getDateTime().toLocalDate();
+                calories = caloriesPerDayMap.get(date);
+                if (calories > caloriesPerDay) {
+                    mealWithExceedsList.add(new UserMealWithExceed(list, true));
+                }
+                else {
+                    mealWithExceedsList.add(new UserMealWithExceed(list, false));
+                }
+            }
+        }
+        return mealWithExceedsList;
     }
 }
