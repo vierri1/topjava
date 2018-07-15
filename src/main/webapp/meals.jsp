@@ -18,10 +18,19 @@
 </head>
 <body>
 <section>
-    <h3><a href="index.html">Home</a></h3>
+    <h3><a href="index.jsp">Home</a></h3>
+
+
     <h2>Meals</h2>
     <a href="meals?action=create">Add Meal</a>
     <hr/>
+    <form action="meals?" method="get">
+        <input type="hidden" name="action" value="filter"/>
+        Сортировать<br>
+        от даты <input type="text" name="fromDate" /> до даты <input type="text" name="toDate"/> <br>
+        от времени <input type="text" name="fromTime"/> до времени <input type="text" name="toTime"/> <br>
+        <input type="submit" value="Применить"/>
+    </form>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
         <tr>
