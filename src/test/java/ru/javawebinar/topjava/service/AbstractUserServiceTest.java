@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.dao.DataAccessException;
+import ru.javawebinar.topjava.model.Meal;
 import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -14,11 +15,14 @@ import java.util.Date;
 import java.util.List;
 
 import static ru.javawebinar.topjava.UserTestData.*;
+import static ru.javawebinar.topjava.MealTestData.*;
+
+
 
 public abstract class AbstractUserServiceTest extends AbstractBaseServiceTest{
 
     @Autowired
-    private UserService service;
+    protected UserService service;
 
     @Autowired
     private CacheManager cacheManager;
@@ -83,4 +87,7 @@ public abstract class AbstractUserServiceTest extends AbstractBaseServiceTest{
         List<User> all = service.getAll();
         assertMatch(all, ADMIN, USER);
     }
+
+
+
 }
